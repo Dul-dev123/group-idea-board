@@ -3,165 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Idea Board</title>
+    <title>UCSC Student Toolkit</title>
     <style>
-        /* Part 5 - Improve the Appearance & Styling */
+        /* Part 2 & 3 - Branding, Layout & Dark Mode */
+        :root {
+            --ucsc-maroon: #800000;
+            --ucsc-gold: #FFD700;
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #f4f4f4;
+            --card-bg: #2d2d2d;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9; /* Background design [cite: 58] */
             margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            animation: fadeIn 1.5s ease-in;
         }
 
-        header {
-            background-color: #0056b3; /* Blue header [cite: 5, 55] */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Part 1 - Navigation Bar */
+        .navbar {
+            background-color: var(--ucsc-maroon);
             color: white;
-            width: 100%;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 600px; /* Better layout and spacing [cite: 47] */
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        select, input {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        select { flex: 1; }
-        input { flex: 2; }
-
-        button {
-            padding: 12px 20px;
-            background-color: #0056b3; /* Visually appealing button [cite: 50] */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background-color: #004494;
-        }
-
-        .stats {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 15px;
-            font-weight: bold; /* Total number of ideas section [cite: 59] */
-        }
-
-        ul {
-            list-style: none; /* Clear list layout [cite: 49] */
-            padding: 0;
-        }
-
-        li {
-            background: #f9f9f9;
-            margin-bottom: 8px;
-            padding: 12px;
-            border-left: 5px solid #0056b3;
-            border-radius: 4px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--ucsc-gold);
         }
 
-        footer {
-            margin-top: auto;
-            padding: 20px;
-            font-size: 0.8rem;
-            color: #888; /* Footer section [cite: 56] */
+        .nav-logo { display: flex; align-items: center; gap: 15px; }
+        .nav-logo img { height: 50px; width: auto; border-radius: 4px; } 
+
+        .nav-links button {
+            background: none; border: 1px solid var(--ucsc-gold);
+            color: white; padding: 8px 15px; margin-left: 10px;
+            cursor: pointer; border-radius: 4px; transition: 0.3s;
         }
+
+        .nav-links button:hover { background-color: var(--ucsc-gold); color: var(--ucsc-maroon); }
+
+        /* Layout */
+        .main-container { display: flex; flex: 1; overflow: hidden; }
+
+        .sidebar {
+            width: 250px; background-color: #f4f4f4; padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+
+        body.dark-mode .sidebar { background-color: #262626; border-right: 1px solid #444; }
+
+        .event-item {
+            padding: 12px; margin: 10px 0; background: var(--card-bg);
+            border-radius: 4px; border-left: 4px solid var(--ucsc-maroon);
+            transition: all 0.3s ease; cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .event-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--ucsc-gold);
+        }
+
+        .content { flex: 1; padding: 40px; overflow-y: auto; text-align: center; }
+
+        .tool-card {
+            max-width: 600px; margin: 0 auto; text-align: left;
+            background: var(--card-bg); padding: 25px; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .input-group { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        
+        input, select { 
+            padding: 10px; border-radius: 4px; border: 1px solid #ddd; 
+            background: var(--card-bg); color: var(--text-color);
+        }
+
+        .primary-btn {
+            background: var(--ucsc-maroon); color: white; border: none; 
+            padding: 12px; cursor: pointer; border-radius: 4px; font-weight: bold;
+        }
+
+        .idea-list { list-style: none; padding: 0; margin-top: 20px; }
+        .idea-item { padding: 12px; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+        .timestamp { color: #888; font-size: 0.75rem; display: block; margin-top: 4px; }
     </style>
 </head>
-<body>
+<body id="mainBody">
 
-    <header>
-        <h1>Group Idea Board</h1>
-    </header>
-
-    <div class="container">
-        <div class="stats">
-            Total Ideas: <span id="ideaCount">0</span>
+    <nav class="navbar">
+        <div class="nav-logo">
+            <img src="logo.png" alt="UCSC Logo">
+            <span><strong>UCSC Hub</strong></span>
         </div>
-
-        <div class="input-group">
-            <select id="userName">
-                <option value="" disabled selected>Select your name...</option>
-                <option value="Dulina">Dulina</option>
-                <option value="Binu">Binu</option>
-                <option value="Kishan">Kishan</option>
-                <option value="Rawana">Rawana</option>
-                <option value="Sithupa">Sithupa</option>
-            </select>
-            
-            <input type="text" id="ideaInput" placeholder="Enter your idea here...">
-            <button onclick="addIdea()">Add Idea</button>
+        <div class="nav-links">
+            <button onclick="showSection('gpa')">GPA Calculator</button>
+            <button onclick="showSection('timer')">Study Timer</button>
+            <button onclick="showSection('ideas')">Idea Board</button>
         </div>
+        <div style="font-size: 14px;">
+            <input type="checkbox" id="darkSwitch" onclick="toggleDarkMode()"> Dark Mode
+        </div>
+    </nav>
 
-        <ul id="ideaList">
-            </ul>
+    <div class="main-container">
+        <aside class="sidebar">
+            <h3 style="color: var(--ucsc-maroon)">Upcoming Events</h3>
+            <div class="event-item">Final Project Submission</div>
+            <div class="event-item">Python Workshop - Day 05</div>
+            <div class="event-item">University Coding Hackathon</div>
+        </aside>
 
-        <button onclick="resetInputs()" style="background-color: #6c757d; margin-top: 10px; font-size: 12px;">Clear Inputs</button>
+        <main class="content" id="main-content">
+            <div id="welcome">
+                <h2>Welcome to your Student Toolkit</h2>
+                <p>Use the menu above to access your university tools.</p>
+            </div>
+        </main>
     </div>
 
-    <footer>
-        &copy; 2026 Project Day 03 - Collaborative Idea Board
-    </footer>
-
     <script>
-        let count = 0;
+        let savedIdeas = [];
+        let timerInterval = null;
+        let timeLeft = 25 * 60;
 
-        function addIdea() {
-            const name = document.getElementById('userName').value;
-            const idea = document.getElementById('ideaInput').value;
-            const list = document.getElementById('ideaList');
-            const countDisplay = document.getElementById('ideaCount');
-
-            if (name === "" || idea.trim() === "") {
-                alert("Please select a name and enter an idea!");
-                return;
-            }
-
-            // Create list item [cite: 43]
-            const li = document.createElement('li');
-            li.innerHTML = `<span><strong>${idea}</strong> — <small>suggested by ${name}</small></span>`;
-            
-            list.appendChild(li);
-
-            // Update counter [cite: 59]
-            count++;
-            countDisplay.innerText = count;
-
-            // Clear input field [cite: 59]
-            document.getElementById('ideaInput').value = "";
+        function toggleDarkMode() {
+            document.getElementById('mainBody').classList.toggle('dark-mode');
         }
 
-        function resetInputs() {
-            document.getElementById('userName').selectedIndex = 0;
-            document.getElementById('ideaInput').value = "";
+        function showSection(section) {
+            const display = document.getElementById('main-content');
+            
+            if(section === 'gpa') {
+                display.innerHTML = `
+                    <div class="tool-card">
+                        <h3>GPA Calculator</h3>
+                        <div class="input-group">
+                            <label>Course Credits:</label>
+                            <input type="number" id="credits" placeholder="e.g. 3">
+                            <label>Grade Points:</label>
+                            <input type="number" id="grade" step="0.01" placeholder="e.g. 4.0">
+                            <button class="primary-btn" onclick="calculateGPA()">Calculate</button>
+                        </div>
+                        <h4 id="gpaResult" style="margin-top:20px; color: var(--ucsc-maroon);"></h4>
+                    </div>`;
+            } else if(section === 'timer') {
+                display.innerHTML = `
+                    <div class="tool-card" style="text-align:center;">
+                        <h3>Pomodoro Study Timer</h3>
+                        <div style="font-size: 4rem; font-weight: bold; margin: 20px 0;" id="timerDisplay">25:00</div>
+                        <div style="display:flex; gap:10px; justify-content:center;">
+                            <button onclick="startTimer()" style="background: #28a745; color:white; border:none; padding:10px 25px; cursor:pointer; border-radius:4px;">Start</button>
+                            <button onclick="resetTimer()" class="primary-btn">Reset</button>
+                        </div>
+                    </div>`;
+                updateTimerDisplay();
+            } else if(section === 'ideas') {
+                display.innerHTML = `
+                    <div class="tool-card">
+                        <h3>Project Idea Board</h3>
+                        <div style="background: rgba(255, 215, 0, 0.1); padding: 10px; border-radius: 4px; margin-bottom: 15px; border: 1px solid var(--ucsc-gold);">
+                            <small>Manage Team Members:</small>
+                            <div style="display:flex; gap:5px; margin-top:5px;">
+                                <input type="text" id="addName" style="flex:1; padding:5px;" placeholder="New member name...">
+                                <button onclick="pushNewName()" style="font-size:12px; padding:5px 10px;">Add</button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <select id="userDropdown">
+                                <option value="Dulina">Dulina</option>
+                                <option value="Binu">Binu</option>
+                                <option value="Kishan">Kishan</option>
+                                <option value="Rawana">Rawana</option>
+                                <option value="Sithupa">Sithupa</option>
+                            </select>
+                            <input type="text" id="userIdea" placeholder="What's your idea?">
+                            <button class="primary-btn" onclick="submitIdea()">Add to Board</button>
+                        </div>
+                        <ul id="ideaDisplayList" class="idea-list"></ul>
+                    </div>`;
+                renderIdeas();
+            }
+        }
+
+        function calculateGPA() {
+            const credits = parseFloat(document.getElementById('credits').value);
+            const grade = parseFloat(document.getElementById('grade').value);
+            if (!isNaN(credits) && !isNaN(grade)) {
+                document.getElementById('gpaResult').innerText = "Overall GPA: " + (grade).toFixed(2);
+            }
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    alert("Focus session complete!");
+                } else {
+                    timeLeft--;
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timeLeft = 25 * 60;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const min = Math.floor(timeLeft / 60);
+            const sec = timeLeft % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        function pushNewName() {
+            const input = document.getElementById('addName');
+            const select = document.getElementById('userDropdown');
+            if(input.value.trim()) {
+                const opt = document.createElement('option');
+                opt.value = input.value;
+                opt.innerHTML = input.value;
+                select.appendChild(opt);
+                input.value = "";
+            }
+        }
+
+        function submitIdea() {
+            const name = document.getElementById('userDropdown').value;
+            const idea = document.getElementById('userIdea').value;
+            if(idea.trim()) {
+                const now = new Date();
+                const timeStr = now.toLocaleDateString() + " at " + now.toLocaleTimeString();
+                savedIdeas.push({ name, idea, time: timeStr });
+                document.getElementById('userIdea').value = "";
+                renderIdeas();
+            }
+        }
+
+        function renderIdeas() {
+            const list = document.getElementById('ideaDisplayList');
+            if(list) {
+                list.innerHTML = savedIdeas.map(item => 
+                    `<li class="idea-item">
+                        <strong>${item.idea}</strong><br>
+                        <small>by ${item.name}</small>
+                        <span class="timestamp">Submitted: ${item.time}</span>
+                    </li>`
+                ).join('');
+            }
         }
     </script>
 </body>
